@@ -1,0 +1,42 @@
+/*  CSS lightbox*/
+#LoadAjax{   
+    margin: 0 ;
+    display: none;
+    background-color: white;       
+    position: absolute;       
+    top:55px;	
+    left: 140px;
+    box-shadow: 5px 5px 10px;
+    z-index: 1001;
+    border-radius: 3px;
+}
+#viewPage{
+    margin: 0 ;
+    display: none;
+    background-color: white;       
+    position: absolute;       
+    top:55px;
+    left: 295px;
+    box-shadow: 5px 5px 10px;
+    z-index: 1001;
+    border-radius: 3px;
+}
+#Shadowx{
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    background-color: rgba(0,0,0,.5);
+    z-index: 1000;
+} 
+#hide-table{ 
+    border-radius: 1px;
+    position: absolute;         
+    padding: 5px;
+    top:0px;
+    right:15px;
+    border-radius: 0 0 5px 0;
+    background-color: black;
+    color: #fff;
+}
+
