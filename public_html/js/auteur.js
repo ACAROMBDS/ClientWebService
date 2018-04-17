@@ -10,17 +10,21 @@
  */
 /* global ko, self */
 
-var Livre = function (livre) {
-    this.id = ko.observable(livre.id);
-    this.ISBN = ko.observable(livre.ISBN);
-   /* this.photo = ko.observable(livre.photo);*/
+var Auteur = function (auteur) {
+    this.id = ko.observable(auteur.id);
+    this.dtype = ko.observable(auteur.dtype);
+    this.datedenaissance = ko.observable(auteur.datedenaissance);
     
-    this.quantite = ko.observable(livre.quantite);
-   /* this.publishddate = ko.observable(livre.publishddate);*/
-    this.titre = ko.observable(livre.titre);
+    this.email = ko.observable(auteur.email);
+    this.nom = ko.observable(auteur.nom);
+    //this.photo = ko.observable(auteur.photo);
     
-    this.resume = ko.observable(livre.resume);
+    this.prenom = ko.observable(auteur.prenom);
+    this.sexe = ko.observable(auteur.sexe);
+    //this.aproposde = ko.observable(auteur.aproposde);
     
+    this.nationalite = ko.observable(auteur.nationalite);
+
 };
 
 /* 
@@ -35,10 +39,10 @@ var Livre = function (livre) {
  //ko.utils.arrayMap itère sur la collection et pour chaque objet trouvé, elle crée une instance de categorie   
  self.categories = ko.observableArray(ko.utils.arrayMap(categories, function(categorie) { return new Category(categorie);}));  
  };  */
-var ViewModel = function (livres) {
+var ViewModel = function (auteurs) {
     var self = this;
-    self.initWithEmptyLivre = function(){
-        self.livre = new Livre({
+    self.initWithEmptyAuteur = function(){
+        self.auteur = new Auteur({
             
         });
     };
@@ -47,14 +51,14 @@ var ViewModel = function (livres) {
     //La fonction prend la réponse obtenue du serveur en paramètre  
     //Ici nous supposons que vous avez chargé la liste des catégories  
     //ko.utils.arrayMap itère sur la collection et pour chaque objet trouvé, elle crée une instance de categorie   
-    self.livres = ko.observableArray(ko.utils.arrayMap(livres, function (livre) {
-        return new Livre(livre);
+    self.auteurs = ko.observableArray(ko.utils.arrayMap(auteurs, function (auteur) {
+        return new Auteur(auteur);
     }));
 
-    self.remove = function (livre) {
-        self.livres.remove(livre);
+    self.remove = function (auteur) {
+        self.auteurs.remove(auteur);
         $.ajax({
-            url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.livre/"+livre.id(),
+            url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.auteur/"+auteur.id(),
             type: "DELETE",
             contentType: "application/json",
             headers: {
@@ -62,15 +66,15 @@ var ViewModel = function (livres) {
             }
         }).done(function (data) { 
             
-            self.livres.remove(livre);
-            alert("Le livre a été supprimé.");
+            self.auteurs.remove(auteur);
+            alert("L'auteur a été supprimé.");
         });
     };
-    self.update = function (livre) {
-        self.livres.replace(livre.id(), livre.id());
+    self.update = function (auteur) {
+        self.auteurs.replace(auteur.id(), auteur.id());
         $.ajax({
-            url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.livre/"+livre.id(),
-            data:ko.toJSON(livre,null,2),
+            url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.auteur/"+auteur.id(),
+            data:ko.toJSON(auteur,null,2),
             type: "PUT",
             contentType: "application/json",
             headers: {
@@ -78,33 +82,34 @@ var ViewModel = function (livres) {
             }
         }).done(function (data) {
             getData();
-            alert("Le livre a été modifié.");
+            alert("L'auteur a été modifié.");
         });
     };
    
     self.add = function () {
-        var cat = ko.toJSON(self.livre,null,2);
+        var cat = ko.toJSON(self.auteur2,null,2);
         delete cat.id;
         console.log(cat);
         //self.categories.create(categorie);
         $.ajax({
-            url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.livre",
+            url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.auteur",
             type: "POST",
-            data:ko.toJSON(self.livre,null,2),
+            data:ko.toJSON(self.auteur2,null,2),
             contentType: "application/json",
             headers: {
                 Accept: "application/json"
             }
         }).done(function (data) {
-            alert("Le livre a été enregistré.");
-            $('#ISBN').val('');
-           
-            
-          
-            $('#quantite').val('');
-            
-             $('#resume').val('');
-            $('#titre').val('');
+            alert("L'auteur a été enregistré.");
+            $('#dtype').val('');
+            $('#datedenaissance').val(''); 
+             $('#email').val(''); 
+              $('#nom').val(''); 
+               $('#photo').val(''); 
+                $('#prenom').val(''); 
+                 $('#sexe').val('');
+                  $('#aproposde').val(''); 
+                   $('#nationalite').val(''); 
         });
     };
 };
@@ -113,9 +118,9 @@ var ViewModel = function (livres) {
   To change this template file, choose Tools | Templates
   and open the template in the editor.
  */
-var newLivre = function () {
+var newAuteur = function () {
     var viewModel = new ViewModel();
-    viewModel.initWithEmptyLivre();
+    viewModel.initWithEmptyAuteur();
     ko.applyBindings(viewModel);
 };
 
@@ -135,10 +140,10 @@ var newLivre = function () {
         })
     });
 };*/
-function getData() {
+function getDataAuteur() {
     
     $.ajax({
-        url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.livre",
+        url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.auteur",
         type: "GET",
         headers: {
             Accept: "application/json"
@@ -149,10 +154,10 @@ function getData() {
     });
 }
 
-function remove(livre) {
-    self.livres.remove(livre.id());
+function remove(auteur) {
+    self.auteurs.remove(auteur.id());
     $.ajax({
-        url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.livre",
+        url: "http://localhost:8080/bibliotheque_ntdp/webresources/fr.unice.miage.ntdp.bibliotheque.auteur",
         type: "DELETE",
         contentType: "application/json",
         headers: {
@@ -160,7 +165,7 @@ function remove(livre) {
         }
     }).done(function (data) {
         //alert('ok');
-        self.livres.remove(livre.id());
+        self.auteurs.remove(auteur.id());
     });
 }
 
